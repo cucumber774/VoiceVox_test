@@ -7,13 +7,24 @@ class Audio(object):
     def __init__(self):
         # オーディオと出力ストリームのオープン
         self.audio = pyaudio.PyAudio()
-  
+
+        # 仮想オーディオのインデックスを探す
+        for deviceIndex in range(self.audio.get_device_count()):
+            data = self.audio.get_device_info_by_index(deviceIndex)
+            if data.get('name') == 'CABLE Input (VB-Audio Virtual C':
+                break
+
+        # 仮想オーディオが無かった
+        if deviceIndex is self.audio.get_device_count():
+            assert()
+
+        # ストリームを開く
         self.stream = self.audio.open(
-            format=8,
-            channels=1,
-	        rate=24000,
-            output_device_index=2,
-            output=True)
+            format=pyaudio.paInt16,
+	        channels=1,
+            rate=24000,
+            output=True,
+            output_device_index=deviceIndex)
     
     # デストラクタ
     def __del__(self):
