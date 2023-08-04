@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4bc8be3b-3842-41b9-8ced-195e7d3f360a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>VoiceVox.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="audioOutput.py" />
+    <Compile Include="Audio.py" />
+    <Compile Include="main.py" />
     <Compile Include="VoiceVox.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

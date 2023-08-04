@@ -1,36 +1,26 @@
-﻿
-import json
-import requests
-from audioOutput import audioOutput
-import PySimpleGUI
+﻿from Audio import Audio
+from VoiceVox import VoiceVox
+import PySimpleGUI as GUI
 
-# 文章読み上げ
-def readText (text, speaker=2, filepath='./audio.wav'):
-    host = 'localhost'
-    port = 50021
 
-    # 読み上げ文章と音声指定のクエリ
-    params = (
-        ('text', text),
-        ('speaker', speaker),
-    )
-    response_query = requests.post(
-        f'http://{host}:{port}/audio_query',
-        params=params
-    )
-
-    # 読み上げ音声作成
-    headers = {'Content-Type': 'application/json',}
-    response_main = requests.post(
-        f'http://{host}:{port}/synthesis',
-        headers=headers,
-        params=params,
-        data=json.dumps(response_query.json())
-    )
-
-    a = audioOutput()
-    a.output(response_main.content)
-
+# メイン関数
 if __name__ == '__main__':
-    text = 'マイクテストマイクテスト、本日も晴天なり'
-    readText(text)
+
+    audio = Audio()
+    voicevox = VoiceVox(2)
+
+    GUI.theme("DarkBlue")
+    layout=[
+        [GUI.Text("読み上げ文章を入力")],
+        [GUI.InputText("テキストを入力", key="text")],
+        [GUI.Button("読み上げ", key="ok")]]
+    
+    window=GUI.Window("VoiceVox Reader", layout)
+
+    while True:
+        event, values=window.read()
+        if event == GUI.WIN_CLOSED:
+            break
+        elif event=="ok":
+            text=values["text"]            
+            audio.output(voicevox.create(text))
